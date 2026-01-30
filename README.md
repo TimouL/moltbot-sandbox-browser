@@ -42,7 +42,7 @@ docker run --rm -p 9222:9222 -p 6080:6080 moltbot-sandbox-browser:bookworm-slim
 
 Open:
 
-- noVNC UI: `http://localhost:6080/`
+- noVNC UI: `http://localhost:6080/vnc.html` (some distros may show a file listing at `/`)
 - CDP: `http://localhost:9222/`
 
 ## Configuration
