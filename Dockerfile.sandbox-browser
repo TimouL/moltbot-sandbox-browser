@@ -9,6 +9,7 @@ RUN apt-get update \
     chromium \
     curl \
     fonts-liberation \
+    fonts-noto-cjk \
     fonts-noto-color-emoji \
     git \
     jq \
@@ -26,4 +27,3 @@ RUN chmod +x /usr/local/bin/moltbot-sandbox-browser
 EXPOSE 9222 5900 6080
 
 CMD ["moltbot-sandbox-browser"]
-

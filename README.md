@@ -4,6 +4,7 @@ This repo builds a Debian (bookworm-slim) container image that runs Chromium wit
 
 - a stable Chrome DevTools Protocol (CDP) endpoint (default `:9222`)
 - optional VNC (`:5900`) + noVNC web UI (`:6080`) for interactive mode
+- Noto CJK fonts included (Chinese/Japanese/Korean text rendering)
 
 The Dockerfile and entrypoint script are extracted from moltbot:
 
@@ -80,5 +81,11 @@ starts with a fresh profile.
 
 This repo includes a manually-triggered workflow that builds and pushes the image
 to `ghcr.io/<owner>/<repo>`.
+
+Tags published by default:
+
+- `latest`
+- `<tag>` (workflow input, default `bookworm-slim`)
+- `sha-<short>`
 
 See: `.github/workflows/build-browser-image.yml`
