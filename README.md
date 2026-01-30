@@ -55,10 +55,25 @@ All ports and modes are controlled via environment variables:
 - `CLAWDBOT_BROWSER_ENABLE_NOVNC` (default: `1`)
 - `CLAWDBOT_BROWSER_HEADLESS` (default: `0`)
 
+## Persistence (Optional)
+
+By default, the container stores the Chromium profile and caches under
+`/tmp/moltbot-home` (see `scripts/sandbox-browser-entrypoint.sh`). Mount a
+volume there if you want to persist state (cookies, cache, etc.) across restarts:
+
+```bash
+docker run --rm \
+  -p 9222:9222 -p 6080:6080 \
+  -v moltbot-browser-home:/tmp/moltbot-home \
+  moltbot-sandbox-browser:bookworm-slim
+```
+
+For deterministic automation runs, consider not mounting a volume so every run
+starts with a fresh profile.
+
 ## GitHub Actions (Publish to GHCR)
 
 This repo includes a manually-triggered workflow that builds and pushes the image
 to `ghcr.io/<owner>/<repo>`.
 
 See: `.github/workflows/build-browser-image.yml`
-
