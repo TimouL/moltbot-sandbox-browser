@@ -14,7 +14,27 @@ HEADLESS="${CLAWDBOT_BROWSER_HEADLESS:-0}"
 
 mkdir -p "${HOME}" "${HOME}/.chrome" "${XDG_CONFIG_HOME}" "${XDG_CACHE_HOME}"
 
+mkdir -p /tmp/.X11-unix
+chmod 1777 /tmp/.X11-unix || true
+
+# If the container was stopped uncleanly, Xvfb can leave stale lock/socket files
+# behind which prevents it from starting on the next boot.
+rm -f /tmp/.X1-lock /tmp/.X11-unix/X1 || true
+
 Xvfb :1 -screen 0 1280x800x24 -ac -nolisten tcp &
+XVFB_PID=$!
+
+# Wait for Xvfb to be ready before launching Chromium.
+for _ in $(seq 1 50); do
+  if [[ -S /tmp/.X11-unix/X1 ]]; then
+    break
+  fi
+  if ! kill -0 "${XVFB_PID}" 2>/dev/null; then
+    echo "Xvfb exited unexpectedly" >&2
+    exit 1
+  fi
+  sleep 0.1
+done
 
 if [[ "${HEADLESS}" == "1" ]]; then
   CHROME_ARGS=(
@@ -65,4 +85,3 @@ if [[ "${ENABLE_NOVNC}" == "1" && "${HEADLESS}" != "1" ]]; then
 fi
 
 wait -n
-
