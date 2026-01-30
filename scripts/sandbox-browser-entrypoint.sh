@@ -14,6 +14,15 @@ HEADLESS="${CLAWDBOT_BROWSER_HEADLESS:-0}"
 
 mkdir -p "${HOME}" "${HOME}/.chrome" "${XDG_CONFIG_HOME}" "${XDG_CACHE_HOME}"
 
+# When using a persistent volume for the profile directory, Chromium can leave
+# singleton lock files behind if it was terminated uncleanly (e.g. container
+# restart or host reboot). These stale locks prevent Chromium from starting.
+rm -f \
+  "${HOME}/.chrome/SingletonCookie" \
+  "${HOME}/.chrome/SingletonLock" \
+  "${HOME}/.chrome/SingletonSocket" \
+  >/dev/null 2>&1 || true
+
 mkdir -p /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix || true
 

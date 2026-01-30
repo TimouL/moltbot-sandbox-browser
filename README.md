@@ -74,6 +74,12 @@ The Chromium user profile directory is `/tmp/moltbot-home/.chrome` (cookies,
 storage, and installed extensions live here). If you only want to persist the
 browser profile, you can mount just that subdirectory instead.
 
+If you mount a persistent profile and the container is terminated uncleanly,
+Chromium may refuse to start with a "profile appears to be in use" error. This
+image removes stale `Singleton*` lock files on startup; if you keep seeing the
+error, make sure you are not running multiple containers against the same
+profile volume at the same time.
+
 For deterministic automation runs, consider not mounting a volume so every run
 starts with a fresh profile.
 
