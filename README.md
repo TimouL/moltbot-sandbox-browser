@@ -68,6 +68,10 @@ docker run --rm \
   moltbot-sandbox-browser:bookworm-slim
 ```
 
+The Chromium user profile directory is `/tmp/moltbot-home/.chrome` (cookies,
+storage, and installed extensions live here). If you only want to persist the
+browser profile, you can mount just that subdirectory instead.
+
 For deterministic automation runs, consider not mounting a volume so every run
 starts with a fresh profile.
 
